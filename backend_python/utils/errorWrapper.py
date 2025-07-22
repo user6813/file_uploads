@@ -13,5 +13,5 @@ def error_wrapper(func):
             raise http_exc
         except Exception as e:
             logging.exception("Unexpected error occurred")
-            return response.server_error("Something went wrong. Please try again later.")
+            return response.server_error(f"Something went wrong. Please try again later.\n {e}",error=e)
     return wrapper

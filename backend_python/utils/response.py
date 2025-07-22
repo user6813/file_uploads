@@ -3,13 +3,14 @@ from fastapi import status
 from typing import Any, Optional
 
 
-def _format_response(status_bool: bool, message: str, data: Optional[Any] = None, code: int = 200):
+def _format_response(status_bool: bool, message: str, data: Optional[Any] = None, code: int = 200, error = None):
     return JSONResponse(
         status_code=code,
         content={
             "success": status_bool,
             "message": message,
-            "data": data
+            "data": data,
+            "error": str(error) # for Normal Error getting Error with raw exception
         }
     )
 
@@ -33,5 +34,5 @@ def forbidden(message: str = "Forbidden"):
 def not_found(message: str = "Not found"):
     return _format_response(False, message, None, code=status.HTTP_404_NOT_FOUND)
 
-def server_error(message: str = "Internal server error"):
-    return _format_response(False, message, None, code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+def server_error(message: str = "Internal server error", error = None):
+    return _format_response(False, message, None, code=status.HTTP_500_INTERNAL_SERVER_ERROR, error=error)

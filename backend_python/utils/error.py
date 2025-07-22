@@ -7,7 +7,7 @@ logger = logging.getLogger("uvicorn.error")
 
 async def handle_exception(request: Request, exc: Exception):
     logger.error(f"Unhandled error: {exc}", exc_info=True)
-    return response.server_error("An unexpected error occurred")
+    return response.server_error("An unexpected error occurred", error=exc)
 
 async def handle_http_exception(request: Request, exc: HTTPException):
     logger.warning(f"HTTP error: {exc.detail}")
